@@ -34,9 +34,7 @@ button{
   display:block;
 }
 
-/* =========================
-   ACCUEIL
-========================= */
+/* ACCUEIL */
 
 #home{
   background:linear-gradient(160deg,#ff7a00,#ff9d38);
@@ -83,9 +81,7 @@ button{
   opacity:.9;
 }
 
-/* =========================
-   GAME
-========================= */
+/* JEU */
 
 #game{
   background:#f7f7f7;
@@ -129,8 +125,6 @@ button{
   transition:.3s;
 }
 
-/* difficulté */
-
 .difficulty{
   text-align:center;
   margin:18px 0 5px;
@@ -143,8 +137,6 @@ button{
   font-size:24px;
   letter-spacing:4px;
 }
-
-/* images */
 
 .images-grid{
   display:grid;
@@ -165,8 +157,6 @@ button{
   font-size:65px;
   box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
-
-/* réponse */
 
 .answer-area{
   padding:5px 18px 15px;
@@ -200,8 +190,6 @@ button{
   border-radius:5px;
 }
 
-/* lettres */
-
 .letters{
   max-width:500px;
   margin:10px auto;
@@ -227,8 +215,6 @@ button{
   opacity:.25;
   pointer-events:none;
 }
-
-/* outils */
 
 .tools{
   max-width:500px;
@@ -270,8 +256,6 @@ button{
   color:#268c48;
 }
 
-/* message */
-
 .message{
   text-align:center;
   min-height:25px;
@@ -287,9 +271,7 @@ button{
   color:#d83b3b;
 }
 
-/* =========================
-   FIN
-========================= */
+/* MODAL */
 
 .overlay{
   position:fixed;
@@ -340,9 +322,8 @@ button{
   font-size:16px;
 }
 
-/* mobile */
-
 @media(max-width:380px){
+
   .image-card{
     height:125px;
     font-size:55px;
@@ -357,15 +338,12 @@ button{
     width:34px;
     height:42px;
   }
+
 }
 </style>
 </head>
 
 <body>
-
-<!-- =========================
-     ACCUEIL
-========================= -->
 
 <section id="home" class="screen active">
 
@@ -390,10 +368,6 @@ button{
 </section>
 
 
-<!-- =========================
-     JEU
-========================= -->
-
 <section id="game" class="screen">
 
   <div class="topbar">
@@ -412,7 +386,6 @@ button{
     <div class="progress" id="progress"></div>
   </div>
 
-
   <div class="difficulty" id="difficulty">
     Difficulté : Facile
   </div>
@@ -421,10 +394,7 @@ button{
     🫑
   </div>
 
-
-  <div class="images-grid" id="imagesGrid">
-  </div>
-
+  <div class="images-grid" id="imagesGrid"></div>
 
   <div class="answer-area">
 
@@ -432,19 +402,13 @@ button{
       Trouve le mot
     </div>
 
-    <div class="answer" id="answer">
-    </div>
+    <div class="answer" id="answer"></div>
 
   </div>
 
+  <div class="message" id="message"></div>
 
-  <div class="message" id="message">
-  </div>
-
-
-  <div class="letters" id="letters">
-  </div>
-
+  <div class="letters" id="letters"></div>
 
   <div class="tools">
 
@@ -470,10 +434,6 @@ button{
 
 </section>
 
-
-<!-- =========================
-     MODAL
-========================= -->
 
 <div class="overlay" id="overlay">
 
@@ -503,7 +463,7 @@ button{
 <script>
 
 /* =====================================================
-   MOTS NOUCHI FOURNIS PAR CHRIS
+   MOTS NOUCHI
 ===================================================== */
 
 const levels = [
@@ -518,7 +478,7 @@ const levels = [
   {
     word:"ANITCHE",
     meaning:"merci",
-    images:["🙏","❤️","😊","🤝"],
+    images:["🙏","👍","❤️","🤝"],
     difficulty:"easy"
   },
 
@@ -537,7 +497,7 @@ const levels = [
   },
 
   {
-    word:"AGN0N",
+    word:"AGNON",
     meaning:"habit",
     images:["👕","👖","👔","🧥"],
     difficulty:"easy"
@@ -819,13 +779,13 @@ const levels = [
 ];
 
 
-/* =====================================================
-   VARIABLES
-===================================================== */
+/* VARIABLES */
 
-let currentLevel = Number(localStorage.getItem("nouchiLevel")) || 0;
+let currentLevel =
+  Number(localStorage.getItem("nouchiLevel")) || 0;
 
-let coins = Number(localStorage.getItem("nouchiCoins"));
+let coins =
+  Number(localStorage.getItem("nouchiCoins"));
 
 if(!coins){
   coins = 100;
@@ -833,36 +793,33 @@ if(!coins){
 
 let selectedLetters = [];
 let selectedButtons = [];
-
 let answerLocked = false;
 
 
-/* =====================================================
-   DEMARRER
-===================================================== */
+/* DEMARRER */
 
 function startGame(){
 
-  document.getElementById("home").classList.remove("active");
+  document.getElementById("home")
+    .classList.remove("active");
 
-  document.getElementById("game").classList.add("active");
+  document.getElementById("game")
+    .classList.add("active");
 
   loadLevel();
 
 }
 
 
-/* =====================================================
-   CHARGER NIVEAU
-===================================================== */
+/* CHARGER NIVEAU */
 
 function loadLevel(){
 
   if(currentLevel >= levels.length){
 
     showGameFinished();
-
     return;
+
   }
 
   answerLocked = false;
@@ -872,26 +829,25 @@ function loadLevel(){
 
   const level = levels[currentLevel];
 
-  document.getElementById("levelNumber").textContent =
-    currentLevel + 1;
+  document.getElementById("levelNumber")
+    .textContent = currentLevel + 1;
 
-  document.getElementById("coins").textContent =
-    coins;
+  document.getElementById("coins")
+    .textContent = coins;
 
   const progress =
     ((currentLevel) / levels.length) * 100;
 
-  document.getElementById("progress").style.width =
-    progress + "%";
+  document.getElementById("progress")
+    .style.width = progress + "%";
 
-
-  /* difficulté */
 
   const difficulty =
     document.getElementById("difficulty");
 
   const peppers =
     document.getElementById("peppers");
+
 
   if(level.difficulty === "easy"){
 
@@ -924,8 +880,6 @@ function loadLevel(){
   }
 
 
-  /* images */
-
   const imagesGrid =
     document.getElementById("imagesGrid");
 
@@ -936,38 +890,31 @@ function loadLevel(){
     const card =
       document.createElement("div");
 
-    card.className = "image-card";
+    card.className =
+      "image-card";
 
-    card.textContent = image;
+    card.textContent =
+      image;
 
     imagesGrid.appendChild(card);
 
   });
 
 
-  /* réponse */
-
   renderAnswer();
-
-
-  /* lettres */
 
   createLetters(level.word);
 
+  document.getElementById("message")
+    .textContent = "";
 
-  /* message */
-
-  document.getElementById("message").textContent = "";
-
-  document.getElementById("message").className =
-    "message";
+  document.getElementById("message")
+    .className = "message";
 
 }
 
 
-/* =====================================================
-   CREER LES LETTRES
-===================================================== */
+/* CREER LETTRES */
 
 function createLetters(word){
 
@@ -978,12 +925,8 @@ function createLetters(word){
 
 
   let letters =
-    word.replace(/[^A-ZÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ]/gi,"")
-        .toUpperCase()
-        .split("");
+    word.toUpperCase().split("");
 
-
-  /* lettres supplémentaires */
 
   const alphabet =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -1001,8 +944,6 @@ function createLetters(word){
 
   }
 
-
-  /* mélange */
 
   letters =
     letters.sort(() => Math.random() - 0.5);
@@ -1032,9 +973,7 @@ function createLetters(word){
 }
 
 
-/* =====================================================
-   SELECTION LETTRE
-===================================================== */
+/* SELECTION */
 
 function selectLetter(letter,button){
 
@@ -1062,9 +1001,7 @@ function selectLetter(letter,button){
 }
 
 
-/* =====================================================
-   AFFICHER REPONSE
-===================================================== */
+/* AFFICHER REPONSE */
 
 function renderAnswer(){
 
@@ -1098,9 +1035,7 @@ function renderAnswer(){
 }
 
 
-/* =====================================================
-   EFFACER DERNIERE LETTRE
-===================================================== */
+/* EFFACER */
 
 function eraseLetter(){
 
@@ -1126,9 +1061,7 @@ function eraseLetter(){
 }
 
 
-/* =====================================================
-   VERIFIER REPONSE
-===================================================== */
+/* VERIFIER */
 
 function checkAnswer(){
 
@@ -1166,9 +1099,7 @@ function checkAnswer(){
 }
 
 
-/* =====================================================
-   VICTOIRE
-===================================================== */
+/* VICTOIRE */
 
 function showVictory(){
 
@@ -1186,9 +1117,7 @@ function showVictory(){
 
   document.getElementById("modalText")
     .textContent =
-      level.word +
-      " = " +
-      level.meaning;
+      level.word + " = " + level.meaning;
 
   const button =
     modal.querySelector("button");
@@ -1212,9 +1141,7 @@ function showVictory(){
 }
 
 
-/* =====================================================
-   FERMER MODAL
-===================================================== */
+/* FERMER */
 
 function closeModal(){
 
@@ -1225,7 +1152,6 @@ function closeModal(){
   if(currentLevel === levels.length - 1){
 
     showGameFinished();
-
     return;
 
   }
@@ -1243,9 +1169,7 @@ function closeModal(){
 }
 
 
-/* =====================================================
-   REVELER UNE LETTRE
-===================================================== */
+/* REVELER */
 
 function revealLetter(){
 
@@ -1274,7 +1198,6 @@ function revealLetter(){
     if(selectedLetters[i] !== level.word[i]){
 
       position = i;
-
       break;
 
     }
@@ -1285,13 +1208,10 @@ function revealLetter(){
     return;
   }
 
-
   coins -= 30;
 
   saveCoins();
 
-
-  /* remettre les lettres après la position */
 
   while(selectedLetters.length > position){
 
@@ -1310,13 +1230,10 @@ function revealLetter(){
   const targetLetter =
     level.word[position];
 
-
   const buttons =
     document.querySelectorAll(".letter-btn");
 
-
   let foundButton = null;
-
 
   buttons.forEach(button => {
 
@@ -1346,15 +1263,13 @@ function revealLetter(){
 
   renderAnswer();
 
-  document.getElementById("coins").textContent =
-    coins;
+  document.getElementById("coins")
+    .textContent = coins;
 
 }
 
 
-/* =====================================================
-   ENLEVER DES LETTRES
-===================================================== */
+/* ENLEVER LETTRES */
 
 function removeLetters(){
 
@@ -1372,7 +1287,6 @@ function removeLetters(){
     return;
 
   }
-
 
   const level =
     levels[currentLevel];
@@ -1413,15 +1327,13 @@ function removeLetters(){
     });
 
 
-  document.getElementById("coins").textContent =
-    coins;
+  document.getElementById("coins")
+    .textContent = coins;
 
 }
 
 
-/* =====================================================
-   MESSAGE
-===================================================== */
+/* MESSAGE */
 
 function showMessage(text,type){
 
@@ -1437,9 +1349,7 @@ function showMessage(text,type){
 }
 
 
-/* =====================================================
-   PIECES
-===================================================== */
+/* PIECES */
 
 function saveCoins(){
 
@@ -1451,9 +1361,7 @@ function saveCoins(){
 }
 
 
-/* =====================================================
-   FIN DU JEU
-===================================================== */
+/* FIN DU JEU */
 
 function showGameFinished(){
 
@@ -1463,10 +1371,9 @@ function showGameFinished(){
   document.getElementById("home")
     .classList.add("active");
 
-
   document.querySelector(".game-title")
     .textContent =
-      "NOuchI 4";
+      "NOUCHI 4";
 
   document.querySelector(".subtitle")
     .textContent =
@@ -1495,12 +1402,10 @@ function showGameFinished(){
 }
 
 
-/* =====================================================
-   INITIALISATION
-===================================================== */
+/* INITIALISATION */
 
-document.getElementById("coins").textContent =
-  coins;
+document.getElementById("coins")
+  .textContent = coins;
 
 </script>
 

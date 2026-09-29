@@ -1,339 +1,546 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ludo Son Ivoir 🇨🇮</title>
 
 <style>
-
-* {
-
-  box-sizing: border-box;
-
-  margin: 0;
-
-  padding: 0;
-
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-body {
-
-  font-family: Arial, sans-serif;
-
-  background: #101827;
-
-  color: white;
-
-  text-align: center;
-
+body{
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:#0d1117;
+  color:white;
+  display:flex;
+  justify-content:center;
 }
 
-header {
-
-  padding: 25px 10px;
-
-  background: linear-gradient(90deg, #f58220 33%, white 33%, white 66%, #009e60 66%);
-
-  color: #101827;
-
-  font-weight: bold;
-
+.app{
+  width:100%;
+  max-width:520px;
+  padding:18px 12px 30px;
 }
 
-h1 {
-
-  font-size: 30px;
-
+header{
+  text-align:center;
+  margin-bottom:18px;
 }
 
-header p {
-
-  margin-top: 8px;
-
+.logo{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:1px;
 }
 
-main {
-
-  padding: 25px 12px;
-
+.subtitle{
+  color:#aeb7c4;
+  margin-top:6px;
+  font-size:14px;
 }
 
-h2 {
-
-  margin-bottom: 15px;
-
+.card{
+  background:#171d26;
+  border:1px solid #293241;
+  border-radius:22px;
+  padding:14px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
-button {
-
-  border: none;
-
-  border-radius: 12px;
-
-  padding: 14px 22px;
-
-  font-size: 17px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  margin: 8px;
-
+.players{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.start {
-
-  background: #f58220;
-
-  color: white;
-
+.player{
+  background:#202733;
+  border-radius:14px;
+  padding:9px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  border:2px solid transparent;
 }
 
-.dice {
-
-  background: white;
-
-  color: #101827;
-
-  font-size: 35px;
-
-  width: 85px;
-
-  height: 85px;
-
+.player.active{
+  border-color:#f5a623;
 }
 
-#board {
-
-  display: grid;
-
-  grid-template-columns: repeat(5, 1fr);
-
-  grid-template-rows: repeat(5, 1fr);
-
-  width: min(90vw, 390px);
-
-  aspect-ratio: 1;
-
-  margin: 25px auto;
-
-  border: 5px solid white;
-
-  border-radius: 8px;
-
-  overflow: hidden;
-
-  background: white;
-
+.dot{
+  width:17px;
+  height:17px;
+  border-radius:50%;
 }
 
-.cell {
+.orange{background:#f28c28;}
+.green{background:#19a463;}
+.red{background:#e74c3c;}
+.blue{background:#3987e8;}
 
-  border: 1px solid #cbd5e1;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  font-size: 27px;
-
+.board{
+  width:100%;
+  aspect-ratio:1;
+  background:#f4f1e8;
+  border:6px solid #10151d;
+  border-radius:18px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:repeat(15,1fr);
+  grid-template-rows:repeat(15,1fr);
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-.orange { background: #f58220; }
-
-.green { background: #009e60; }
-
-.blue { background: #2474d2; }
-
-.red { background: #e63946; }
-
-.center { background: #facc15; color: #101827; }
-
-#status {
-
-  margin: 15px auto;
-
-  font-size: 18px;
-
-  line-height: 1.5;
-
+.cell{
+  position:relative;
+  border:1px solid #d5d0c5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-footer {
-
-  padding: 20px;
-
-  color: #aab5c5;
-
-  font-size: 13px;
-
+.house{
+  grid-column:span 6;
+  grid-row:span 6;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:12px;
+  padding:18px;
 }
 
+.house.orange-house{background:#f28c28;}
+.house.green-house{background:#19a463;}
+.house.red-house{background:#e74c3c;}
+.house.blue-house{background:#3987e8;}
+
+.home-slot{
+  background:rgba(255,255,255,.92);
+  border-radius:50%;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.center{
+  grid-column:7 / 10;
+  grid-row:7 / 10;
+  background:linear-gradient(135deg,#f28c28 0 33%,white 33% 66%,#19a463 66%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:900;
+}
+
+.track{
+  background:#fffdf7;
+}
+
+.start-orange{background:#f8c58c;}
+.start-green{background:#9cdbbd;}
+.start-red{background:#f3aaa2;}
+.start-blue{background:#a9c9f2;}
+
+.safe{
+  background:#eee9dc;
+}
+
+.star{
+  font-size:12px;
+  color:#444;
+}
+
+.pawn{
+  width:72%;
+  height:72%;
+  border-radius:50%;
+  position:absolute;
+  z-index:5;
+  border:3px solid white;
+  box-shadow:0 4px 8px rgba(0,0,0,.35);
+  cursor:pointer;
+  transition:transform .15s;
+}
+
+.pawn:hover{
+  transform:scale(1.12);
+}
+
+.pawn.orange-pawn{background:#f28c28;}
+.pawn.green-pawn{background:#19a463;}
+.pawn.red-pawn{background:#e74c3c;}
+.pawn.blue-pawn{background:#3987e8;}
+
+.pawn::after{
+  content:"";
+  width:35%;
+  height:35%;
+  background:rgba(255,255,255,.45);
+  border-radius:50%;
+  position:absolute;
+  top:14%;
+  left:18%;
+}
+
+.controls{
+  margin-top:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+}
+
+.dice{
+  width:78px;
+  height:78px;
+  border-radius:20px;
+  background:white;
+  color:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  font-weight:bold;
+  box-shadow:0 7px 20px rgba(0,0,0,.3);
+  cursor:pointer;
+  user-select:none;
+}
+
+.dice.rolling{
+  animation:roll .7s ease-in-out;
+}
+
+@keyframes roll{
+  0%{transform:rotate(0deg) scale(1);}
+  25%{transform:rotate(90deg) scale(1.08);}
+  50%{transform:rotate(180deg) scale(.92);}
+  75%{transform:rotate(270deg) scale(1.08);}
+  100%{transform:rotate(360deg) scale(1);}
+}
+
+.status{
+  text-align:center;
+  margin-top:14px;
+  background:#202733;
+  border-radius:14px;
+  padding:12px;
+  font-size:14px;
+  color:#e8edf4;
+}
+
+.roll-button{
+  margin-top:12px;
+  width:100%;
+  border:none;
+  padding:14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#f28c28,#ffb347);
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.roll-button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+footer{
+  text-align:center;
+  color:#697586;
+  font-size:12px;
+  margin-top:18px;
+}
 </style>
-
 </head>
 
 <body>
 
+<div class="app">
+
 <header>
-
-  <h1>🎲 LUDO SON IVOIR 🇨🇮</h1>
-
-  <p>Le jeu de Ludo aux couleurs de la Côte d'Ivoire</p>
-
+  <div class="logo">🎲 LUDO SON IVOIR 🇨🇮</div>
+  <div class="subtitle">Le Ludo ivoirien nouvelle génération</div>
 </header>
 
-<main>
+<div class="card">
 
-  <h2>Bienvenue dans le jeu !</h2>
-
-  <p>Prépare-toi à jouer avec tes amis.</p>
-
-  <button class="start" onclick="startGame()">
-
-    🎮 Commencer la partie
-
-  </button>
-
-  <div id="game" style="display:none;">
-
-    <div id="board"></div>
-
-    <h2>🎲 Lance le dé</h2>
-
-    <button class="dice" onclick="rollDice()" id="dice">
-
-      🎲
-
-    </button>
-
-    <div id="status">
-
-      Clique sur le dé pour commencer.
-
-    </div>
-
+<div class="players">
+  <div class="player active">
+    <span class="dot orange"></span>
+    Joueur Orange
   </div>
 
-</main>
+  <div class="player">
+    <span class="dot green"></span>
+    Joueur Vert
+  </div>
+
+  <div class="player">
+    <span class="dot red"></span>
+    Joueur Rouge
+  </div>
+
+  <div class="player">
+    <span class="dot blue"></span>
+    Joueur Bleu
+  </div>
+</div>
+
+<div class="board" id="board"></div>
+
+<div class="controls">
+  <div class="dice" id="dice">⚀</div>
+</div>
+
+<button class="roll-button" id="rollButton" onclick="rollDice()">
+  🎲 LANCER LE DÉ
+</button>
+
+<div class="status" id="status">
+  Au tour du joueur Orange. Lance le dé !
+</div>
+
+</div>
 
 <footer>
-
-  Ludo Son Ivoir © 2026 — Fait avec 🇨🇮
-
+  Ludo Son Ivoir © 2026 🇨🇮
 </footer>
+
+</div>
 
 <script>
 
-let currentPlayer = 0;
+const board = document.getElementById("board");
+const dice = document.getElementById("dice");
+const statusText = document.getElementById("status");
+const rollButton = document.getElementById("rollButton");
 
-let started = false;
+const faces = ["⚀","⚁","⚂","⚃","⚄","⚅"];
 
-const players = [
-
-  { name: "Orange", color: "orange", icon: "🟠" },
-
-  { name: "Vert", color: "green", icon: "🟢" },
-
-  { name: "Rouge", color: "red", icon: "🔴" },
-
-  { name: "Bleu", color: "blue", icon: "🔵" }
-
+const colors = [
+  "orange",
+  "green",
+  "red",
+  "blue"
 ];
 
-function startGame() {
+let currentPlayer = 0;
+let rolling = false;
 
-  document.getElementById("game").style.display = "block";
-
-  document.querySelector(".start").style.display = "none";
-
-  createBoard();
-
-  document.getElementById("status").textContent =
-
-    "Au tour du joueur Orange ! Lance le dé.";
-
-  started = true;
-
-}
-
-function createBoard() {
-
-  const board = document.getElementById("board");
+function createBoard(){
 
   board.innerHTML = "";
 
-  const colors = [
+  /*
+    Plateau 15 x 15.
+    Les quatre coins sont les maisons.
+  */
 
-    "orange", "orange", "orange", "green", "green",
+  for(let row=1; row<=15; row++){
 
-    "orange", "", "", "", "green",
+    for(let col=1; col<=15; col++){
 
-    "orange", "", "center", "", "green",
+      const cell = document.createElement("div");
+      cell.className = "cell";
 
-    "red", "", "", "", "blue",
+      /*
+        Maisons
+      */
 
-    "red", "red", "red", "blue", "blue"
+      if(row<=6 && col<=6){
+        cell.classList.add("house","orange-house");
 
-  ];
+        if(
+          (row===2 && col===2) ||
+          (row===2 && col===5) ||
+          (row===5 && col===2) ||
+          (row===5 && col===5)
+        ){
+          cell.className = "home-slot";
+          cell.innerHTML = "";
+        }
+      }
 
-  for (let i = 0; i < 25; i++) {
+      else if(row<=6 && col>=10){
+        cell.classList.add("house","green-house");
 
-    const cell = document.createElement("div");
+        if(
+          (row===2 && col===11) ||
+          (row===2 && col===14) ||
+          (row===5 && col===11) ||
+          (row===5 && col===14)
+        ){
+          cell.className = "home-slot";
+        }
+      }
 
-    cell.className = "cell " + (colors[i] || "");
+      else if(row>=10 && col<=6){
+        cell.classList.add("house","red-house");
 
-    if (i === 12) {
+        if(
+          (row===11 && col===2) ||
+          (row===11 && col===5) ||
+          (row===14 && col===2) ||
+          (row===14 && col===5)
+        ){
+          cell.className = "home-slot";
+        }
+      }
 
-      cell.textContent = "🇨🇮";
+      else if(row>=10 && col>=10){
+        cell.classList.add("house","blue-house");
 
+        if(
+          (row===11 && col===11) ||
+          (row===11 && col===14) ||
+          (row===14 && col===11) ||
+          (row===14 && col===14)
+        ){
+          cell.className = "home-slot";
+        }
+      }
+
+      /*
+        Centre
+      */
+
+      else if(row>=7 && row<=9 && col>=7 && col<=9){
+        cell.classList.add("center");
+
+        if(row===8 && col===8){
+          cell.innerHTML="🇨🇮";
+        }
+      }
+
+      /*
+        Chemins
+      */
+
+      else if(col===7 || col===8 || col===9 ||
+              row===7 || row===8 || row===9){
+
+        cell.classList.add("track");
+
+        if(row===8 && col===2)
+          cell.classList.add("start-orange");
+
+        if(row===2 && col===8)
+          cell.classList.add("start-green");
+
+        if(row===8 && col===14)
+          cell.classList.add("start-blue");
+
+        if(row===14 && col===8)
+          cell.classList.add("start-red");
+      }
+
+      else{
+        cell.classList.add("track");
+      }
+
+      board.appendChild(cell);
     }
-
-    board.appendChild(cell);
-
   }
 
+  addPawns();
 }
 
-function rollDice() {
+function addPawns(){
 
-  if (!started) return;
+  const slots = document.querySelectorAll(".home-slot");
 
-  const result = Math.floor(Math.random() * 6) + 1;
+  const pawnColors = [
+    "orange-pawn",
+    "green-pawn",
+    "red-pawn",
+    "blue-pawn"
+  ];
 
-  const faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+  slots.forEach((slot,index)=>{
 
-  document.getElementById("dice").textContent = faces[result - 1];
+    const pawn = document.createElement("div");
 
-  document.getElementById("status").textContent =
+    pawn.className =
+      "pawn " +
+      pawnColors[Math.floor(index/4)];
 
-    "Le joueur " + players[currentPlayer].name +
-
-    " a obtenu " + result + " !";
-
-  currentPlayer = (currentPlayer + 1) % players.length;
-
-  setTimeout(() => {
-
-    document.getElementById("status").textContent +=
-
-      "\nAu tour du joueur " + players[currentPlayer].name + ".";
-
-  }, 500);
-
+    slot.appendChild(pawn);
+  });
 }
+
+function rollDice(){
+
+  if(rolling) return;
+
+  rolling = true;
+  rollButton.disabled = true;
+  dice.classList.add("rolling");
+
+  let animationCount = 0;
+
+  const animation = setInterval(()=>{
+
+    const random =
+      Math.floor(Math.random()*6);
+
+    dice.textContent = faces[random];
+
+    animationCount++;
+
+    if(animationCount>=8){
+
+      clearInterval(animation);
+
+      const result =
+        Math.floor(Math.random()*6)+1;
+
+      dice.textContent = faces[result-1];
+
+      dice.classList.remove("rolling");
+
+      const player =
+        colors[currentPlayer];
+
+      statusText.textContent =
+        "Joueur " +
+        player.toUpperCase() +
+        " a obtenu " +
+        result +
+        " !";
+
+      setTimeout(()=>{
+
+        currentPlayer =
+          (currentPlayer+1)%4;
+
+        statusText.textContent =
+          "Au tour du joueur " +
+          colors[currentPlayer].toUpperCase() +
+          ". Lance le dé !";
+
+        rolling=false;
+        rollButton.disabled=false;
+
+      },1300);
+    }
+
+  },90);
+}
+
+createBoard();
 
 </script>
 
 </body>
-
 </html>

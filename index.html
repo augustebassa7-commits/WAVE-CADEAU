@@ -1,3 +1,1187 @@
-git add index.html
-git commit -m "Ludo Son Ivoirien GBOU Edition"
-git push
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Nouchi 4 — 4 Images 1 Mot</title>
+
+<style>
+:root{
+  --orange:#ff7a00;
+  --orange2:#ff9f1c;
+  --green:#087f5b;
+  --dark:#101418;
+  --dark2:#171d23;
+  --card:#202830;
+  --white:#ffffff;
+  --muted:#aab4bd;
+  --gold:#ffc928;
+  --red:#ff4d5a;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top right,rgba(255,122,0,.16),transparent 30%),
+    radial-gradient(circle at bottom left,rgba(8,127,91,.14),transparent 30%),
+    var(--dark);
+  color:var(--white);
+  min-height:100vh;
+}
+
+button{
+  font-family:inherit;
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  max-width:520px;
+  min-height:100vh;
+  margin:auto;
+  padding:18px 16px 30px;
+}
+
+/* HEADER */
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:22px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logoIcon{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  box-shadow:0 8px 25px rgba(255,122,0,.25);
+}
+
+.logoText{
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:-.5px;
+}
+
+.logoSub{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.coins{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#202830;
+  border:1px solid #303a43;
+  padding:9px 12px;
+  border-radius:30px;
+  font-weight:800;
+}
+
+.coin{
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffd84d,#eaa800);
+  color:#7c5200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+}
+
+/* HOME */
+
+.hero{
+  background:
+    linear-gradient(145deg,rgba(255,122,0,.18),rgba(8,127,91,.08)),
+    var(--card);
+  border:1px solid #303a43;
+  border-radius:27px;
+  padding:28px 22px;
+  text-align:center;
+  box-shadow:0 18px 45px rgba(0,0,0,.2);
+}
+
+.flag{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+.hero h1{
+  font-size:31px;
+  font-weight:950;
+  letter-spacing:-1.5px;
+}
+
+.hero p{
+  color:var(--muted);
+  margin-top:9px;
+  line-height:1.45;
+}
+
+.play{
+  width:100%;
+  margin-top:24px;
+  padding:17px;
+  border-radius:17px;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 12px 28px rgba(255,122,0,.24);
+}
+
+.play:active{
+  transform:scale(.98);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid #303a43;
+  border-radius:18px;
+  padding:15px;
+}
+
+.stat strong{
+  display:block;
+  font-size:22px;
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* GAME */
+
+.game{
+  display:none;
+}
+
+.gameHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.back{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:#202830;
+  color:white;
+  font-size:20px;
+}
+
+.level{
+  text-align:center;
+}
+
+.level small{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.level strong{
+  display:block;
+  font-size:16px;
+}
+
+.progress{
+  height:6px;
+  background:#2b343d;
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.progressBar{
+  height:100%;
+  width:10%;
+  background:linear-gradient(90deg,var(--orange),var(--orange2));
+  border-radius:20px;
+  transition:.4s;
+}
+
+/* IMAGES */
+
+.images{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.imageCard{
+  aspect-ratio:1/1;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  border:1px solid #39434c;
+  background:#252e36;
+}
+
+.visual{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:65px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.12),transparent 25%),
+    linear-gradient(145deg,#29343d,#182027);
+}
+
+.imageLabel{
+  position:absolute;
+  bottom:8px;
+  left:8px;
+  right:8px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);
+  padding:6px;
+  border-radius:9px;
+  text-align:center;
+  font-size:10px;
+  color:#eee;
+}
+
+/* ANSWER */
+
+.answerTitle{
+  text-align:center;
+  margin:18px 0 10px;
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.answer{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  min-height:48px;
+}
+
+.slot{
+  width:40px;
+  height:44px;
+  border-radius:11px;
+  background:#202830;
+  border:2px solid #39434c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:18px;
+}
+
+.slot.filled{
+  border-color:var(--orange);
+  background:rgba(255,122,0,.12);
+}
+
+.slot.correct{
+  border-color:var(--green);
+  background:rgba(8,127,91,.22);
+}
+
+/* LETTERS */
+
+.letters{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:15px;
+}
+
+.letter{
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  background:#252e36;
+  border:1px solid #39434c;
+  color:white;
+  font-size:16px;
+  font-weight:900;
+}
+
+.letter:active{
+  transform:scale(.94);
+}
+
+.letter.used{
+  opacity:.2;
+  pointer-events:none;
+}
+
+/* TOOLS */
+
+.tools{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
+}
+
+.tool{
+  background:#202830;
+  border:1px solid #303a43;
+  border-radius:16px;
+  color:white;
+  padding:13px 9px;
+  font-weight:800;
+  font-size:12px;
+}
+
+.tool span{
+  display:block;
+  font-size:18px;
+  margin-bottom:3px;
+}
+
+.tool small{
+  color:var(--gold);
+}
+
+/* MESSAGE */
+
+.message{
+  text-align:center;
+  min-height:22px;
+  margin-top:12px;
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* WIN */
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(8,11,14,.88);
+  backdrop-filter:blur(10px);
+  z-index:50;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+}
+
+.win{
+  width:100%;
+  max-width:420px;
+  background:#202830;
+  border:1px solid #39434c;
+  border-radius:28px;
+  padding:30px 22px;
+  text-align:center;
+  animation:pop .35s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.8);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.trophy{
+  font-size:60px;
+}
+
+.win h2{
+  font-size:27px;
+  margin-top:8px;
+}
+
+.reward{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:900;
+  margin:12px 0 20px;
+}
+
+.next{
+  width:100%;
+  padding:16px;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;
+  font-weight:900;
+  font-size:16px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:360px){
+  .slot{
+    width:34px;
+  }
+
+  .letter{
+    width:39px;
+    height:39px;
+  }
+
+  .visual{
+    font-size:54px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="topbar">
+
+    <div class="logo">
+      <div class="logoIcon">🇨🇮</div>
+
+      <div>
+        <div class="logoText">NOUCHI 4</div>
+        <div class="logoSub">4 IMAGES • 1 MOT</div>
+      </div>
+    </div>
+
+    <div class="coins">
+      <div class="coin">₡</div>
+      <span id="coinCount">100</span>
+    </div>
+
+  </header>
+
+
+  <!-- ACCUEIL -->
+  <main id="home">
+
+    <section class="hero">
+
+      <div class="flag">🇨🇮</div>
+
+      <h1>4 Images 1 Mot</h1>
+
+      <p>
+        Quatre images.<br>
+        Un mot.<br>
+        <strong>À toi de parler nouchi.</strong>
+      </p>
+
+      <button class="play" onclick="startGame()">
+        ▶ JOUER
+      </button>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div class="stat">
+        <strong id="homeLevel">1</strong>
+        <span>Niveau actuel</span>
+      </div>
+
+      <div class="stat">
+        <strong id="homeCoins">100</strong>
+        <span>Pièces</span>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- JEU -->
+  <main id="game" class="game">
+
+    <div class="gameHeader">
+
+      <button class="back" onclick="goHome()">‹</button>
+
+      <div class="level">
+        <small>NIVEAU</small>
+        <strong id="levelNumber">1</strong>
+      </div>
+
+      <div style="width:40px"></div>
+
+    </div>
+
+
+    <div class="progress">
+      <div class="progressBar" id="progressBar"></div>
+    </div>
+
+
+    <!-- IMAGES -->
+
+    <section class="images">
+
+      <div class="imageCard">
+        <div class="visual" id="image1">🚗</div>
+        <div class="imageLabel">Une voiture</div>
+      </div>
+
+      <div class="imageCard">
+        <div class="visual" id="image2">🚕</div>
+        <div class="imageLabel">Un taxi</div>
+      </div>
+
+      <div class="imageCard">
+        <div class="visual" id="image3">🛣️</div>
+        <div class="imageLabel">La route</div>
+      </div>
+
+      <div class="imageCard">
+        <div class="visual" id="image4">🚘</div>
+        <div class="imageLabel">Au volant</div>
+      </div>
+
+    </section>
+
+
+    <div class="answerTitle">
+      Trouve le mot nouchi
+    </div>
+
+
+    <section class="answer" id="answer"></section>
+
+
+    <section class="letters" id="letters"></section>
+
+
+    <div class="tools">
+
+      <button class="tool" onclick="revealLetter()">
+        <span>💡</span>
+        Révéler une lettre
+        <small>30 🪙</small>
+      </button>
+
+      <button class="tool" onclick="removeLetters()">
+        <span>✂️</span>
+        Enlever des lettres
+        <small>50 🪙</small>
+      </button>
+
+    </div>
+
+
+    <div class="message" id="message"></div>
+
+  </main>
+
+</div>
+
+
+<!-- VICTOIRE -->
+
+<div class="overlay" id="overlay">
+
+  <div class="win">
+
+    <div class="trophy">🏆</div>
+
+    <h2>Yafoy !</h2>
+
+    <p style="color:#aab4bd;margin-top:8px">
+      Bonne réponse !
+    </p>
+
+    <div class="reward">
+      +50 🪙
+    </div>
+
+    <button class="next" onclick="nextLevel()">
+      NIVEAU SUIVANT →
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DONNÉES DU JEU
+========================= */
+
+const levels = [
+
+  {
+    word:"GBA",
+
+    images:[
+      ["🚗","Une voiture"],
+      ["🚕","Un taxi"],
+      ["🛣️","Une voiture sur la route"],
+      ["🚘","Quelqu'un au volant"]
+    ]
+  },
+
+  {
+    word:"DABALI",
+
+    images:[
+      ["🍛","Un repas"],
+      ["🍴","Une personne mange"],
+      ["🍗","Un plat"],
+      ["😋","Quelqu'un qui mange"]
+    ]
+  },
+
+  {
+    word:"MOUSSO",
+
+    images:[
+      ["❤️","Couple"],
+      ["👩","Une femme"],
+      ["💑","Petite amie"],
+      ["💌","Relation amoureuse"]
+    ]
+  },
+
+  {
+    word:"PAIYA",
+
+    images:[
+      ["🎉","Une fête"],
+      ["🥳","Des personnes qui célèbrent"],
+      ["🎶","Musique"],
+      ["🕺","Danse"]
+    ]
+  },
+
+  {
+    word:"KPAKPATO",
+
+    images:[
+      ["🗣️","Des personnes qui parlent"],
+      ["🤫","Secret"],
+      ["👂","Quelqu'un écoute"],
+      ["💬","Des paroles"]
+    ]
+  },
+
+  {
+    word:"BEDOU",
+
+    images:[
+      ["👛","Portefeuille"],
+      ["💳","Carte"],
+      ["💵","Argent"],
+      ["👜","Petit portefeuille"]
+    ]
+  },
+
+  {
+    word:"BINGUE",
+
+    images:[
+      ["✈️","Voyage"],
+      ["🌍","Monde"],
+      ["🇫🇷","Europe"],
+      ["🏙️","Une ville européenne"]
+    ]
+  },
+
+  {
+    word:"AGN0N",
+
+    images:[
+      ["👕","Habit"],
+      ["👔","Vêtement"],
+      ["👗","Tenue"],
+      ["🧥","Habit"]
+    ]
+  }
+
+];
+
+
+/* =========================
+   ÉTAT
+========================= */
+
+let currentLevel =
+  Number(localStorage.getItem("nouchiLevel")) || 0;
+
+let coins =
+  Number(localStorage.getItem("nouchiCoins")) || 100;
+
+let selectedLetters = [];
+
+let lettersAvailable = [];
+
+let answerLocked = false;
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const home = document.getElementById("home");
+const game = document.getElementById("game");
+const overlay = document.getElementById("overlay");
+
+const coinCount = document.getElementById("coinCount");
+const homeCoins = document.getElementById("homeCoins");
+const homeLevel = document.getElementById("homeLevel");
+
+const levelNumber = document.getElementById("levelNumber");
+const progressBar = document.getElementById("progressBar");
+
+const answer = document.getElementById("answer");
+const letters = document.getElementById("letters");
+const message = document.getElementById("message");
+
+
+/* =========================
+   AFFICHAGE
+========================= */
+
+function updateCoins(){
+
+  coinCount.textContent = coins;
+  homeCoins.textContent = coins;
+
+  localStorage.setItem("nouchiCoins",coins);
+}
+
+
+function updateHome(){
+
+  homeLevel.textContent = currentLevel + 1;
+
+  updateCoins();
+}
+
+
+/* =========================
+   LANCER LE JEU
+========================= */
+
+function startGame(){
+
+  home.style.display = "none";
+  game.style.display = "block";
+
+  loadLevel();
+}
+
+
+/* =========================
+   CHARGER UN NIVEAU
+========================= */
+
+function loadLevel(){
+
+  if(currentLevel >= levels.length){
+    currentLevel = 0;
+    localStorage.setItem("nouchiLevel",currentLevel);
+  }
+
+  const level = levels[currentLevel];
+
+  levelNumber.textContent = currentLevel + 1;
+
+  const percent =
+    ((currentLevel + 1) / levels.length) * 100;
+
+  progressBar.style.width = percent + "%";
+
+
+  /* images */
+
+  document.getElementById("image1").textContent =
+    level.images[0][0];
+
+  document.getElementById("image2").textContent =
+    level.images[1][0];
+
+  document.getElementById("image3").textContent =
+    level.images[2][0];
+
+  document.getElementById("image4").textContent =
+    level.images[3][0];
+
+
+  const labels =
+    document.querySelectorAll(".imageLabel");
+
+  labels[0].textContent = level.images[0][1];
+  labels[1].textContent = level.images[1][1];
+  labels[2].textContent = level.images[2][1];
+  labels[3].textContent = level.images[3][1];
+
+
+  selectedLetters = [];
+
+  answerLocked = false;
+
+  message.textContent = "";
+
+  createAnswerSlots(level.word);
+
+  createLetters(level.word);
+
+}
+
+
+/* =========================
+   CASES DE REPONSE
+========================= */
+
+function createAnswerSlots(word){
+
+  answer.innerHTML = "";
+
+  for(let i=0;i<word.length;i++){
+
+    const slot =
+      document.createElement("div");
+
+    slot.className = "slot";
+
+    slot.dataset.index = i;
+
+    answer.appendChild(slot);
+  }
+}
+
+
+/* =========================
+   LETTRES
+========================= */
+
+function createLetters(word){
+
+  letters.innerHTML = "";
+
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  let pool = word.split("");
+
+  while(pool.length < Math.max(word.length + 5,10)){
+
+    const random =
+      alphabet[Math.floor(Math.random()*alphabet.length)];
+
+    pool.push(random);
+  }
+
+  pool =
+    pool.sort(()=>Math.random()-.5);
+
+  lettersAvailable = pool;
+
+  pool.forEach((letter,index)=>{
+
+    const button =
+      document.createElement("button");
+
+    button.className = "letter";
+
+    button.textContent = letter;
+
+    button.dataset.index = index;
+
+    button.onclick = () =>
+      selectLetter(letter,button);
+
+    letters.appendChild(button);
+
+  });
+}
+
+
+/* =========================
+   CHOISIR UNE LETTRE
+========================= */
+
+function selectLetter(letter,button){
+
+  if(answerLocked) return;
+
+  const level =
+    levels[currentLevel];
+
+  if(selectedLetters.length >= level.word.length)
+    return;
+
+  selectedLetters.push(letter);
+
+  button.classList.add("used");
+
+  renderAnswer();
+
+  if(selectedLetters.length === level.word.length){
+
+    checkAnswer();
+  }
+}
+
+
+/* =========================
+   AFFICHER REPONSE
+========================= */
+
+function renderAnswer(){
+
+  const slots =
+    document.querySelectorAll(".slot");
+
+  slots.forEach((slot,index)=>{
+
+    slot.textContent =
+      selectedLetters[index] || "";
+
+    if(selectedLetters[index])
+      slot.classList.add("filled");
+  });
+}
+
+
+/* =========================
+   VERIFIER
+========================= */
+
+function checkAnswer(){
+
+  const word =
+    levels[currentLevel].word;
+
+  const attempt =
+    selectedLetters.join("");
+
+  if(attempt === word){
+
+    answerLocked = true;
+
+    document
+      .querySelectorAll(".slot")
+      .forEach(slot=>{
+        slot.classList.add("correct");
+      });
+
+    coins += 50;
+
+    updateCoins();
+
+    overlay.style.display = "flex";
+
+  }else{
+
+    message.textContent =
+      "Pas encore 😅 Essaie encore.";
+
+    setTimeout(()=>{
+
+      selectedLetters = [];
+
+      document
+        .querySelectorAll(".slot")
+        .forEach(slot=>{
+          slot.textContent="";
+          slot.classList.remove("filled");
+        });
+
+      document
+        .querySelectorAll(".letter")
+        .forEach(btn=>{
+          btn.classList.remove("used");
+        });
+
+      message.textContent="";
+
+    },700);
+  }
+}
+
+
+/* =========================
+   INDICE
+========================= */
+
+function revealLetter(){
+
+  if(coins < 30){
+
+    message.textContent =
+      "Pas assez de pièces.";
+
+    return;
+  }
+
+  const word =
+    levels[currentLevel].word;
+
+  let index = -1;
+
+  for(let i=0;i<word.length;i++){
+
+    if(selectedLetters[i] !== word[i]){
+
+      index = i;
+      break;
+    }
+  }
+
+  if(index === -1) return;
+
+  coins -= 30;
+
+  updateCoins();
+
+  selectedLetters[index] =
+    word[index];
+
+  renderAnswer();
+
+  document
+    .querySelectorAll(".letter")
+    .forEach(btn=>{
+
+      if(btn.textContent === word[index] &&
+         !btn.classList.contains("used")){
+
+        btn.classList.add("used");
+        return;
+      }
+
+    });
+
+  if(selectedLetters.join("") === word){
+
+    checkAnswer();
+  }
+}
+
+
+/* =========================
+   SUPPRIMER LETTRES
+========================= */
+
+function removeLetters(){
+
+  if(coins < 50){
+
+    message.textContent =
+      "Pas assez de pièces.";
+
+    return;
+  }
+
+  coins -= 50;
+
+  updateCoins();
+
+  const word =
+    levels[currentLevel].word;
+
+  const buttons =
+    [...document.querySelectorAll(".letter")];
+
+  let removed = 0;
+
+  buttons.forEach(button=>{
+
+    if(
+      removed < 3 &&
+      !word.includes(button.textContent)
+    ){
+
+      button.classList.add("used");
+
+      removed++;
+    }
+
+  });
+
+  message.textContent =
+    "3 mauvaises lettres supprimées.";
+}
+
+
+/* =========================
+   NIVEAU SUIVANT
+========================= */
+
+function nextLevel(){
+
+  overlay.style.display = "none";
+
+  currentLevel++;
+
+  localStorage.setItem(
+    "nouchiLevel",
+    currentLevel
+  );
+
+  updateHome();
+
+  loadLevel();
+}
+
+
+/* =========================
+   RETOUR ACCUEIL
+========================= */
+
+function goHome(){
+
+  game.style.display = "none";
+  home.style.display = "block";
+
+  updateHome();
+}
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+updateHome();
+
+</script>
+
+</body>
+</html>

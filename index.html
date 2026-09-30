@@ -3,28 +3,1193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Nouchi 4 — 4 Images 1 Mot</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f7f7f7;color:#222;min-height:100vh}
-button{border:none;cursor:pointer}
-.screen{display:none;min-height:100vh}
-.screen.active{display:block}
-#home{background:linear-gradient(160deg,#ff7a00,#ff9d38);color:white;text-align:center;padding:40px 20px}
-.logo{font-size:48px;margin-top:40px}
-.game-title{font-size:38px;font-weight:900;margin-top:10px}
-.subtitle{margin-top:10px;font-size:17px;opacity:.95}
-.play-btn{margin-top:50px;background:white;color:#ff7200;font-size:22px;font-weight:900;padding:18px 45px;border-radius:50px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
-.play-btn:active{transform:scale(.96)}
-.home-info{margin-top:35px;font-size:14px;opacity:.9}
-#game{background:#f7f7f7;padding-bottom:30px}
-.topbar{background:white;padding:15px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
-.level-title{font-size:18px;font-weight:900}
-.coins{background:#fff4d6;color:#d78b00;padding:8px 13px;border-radius:20px;font-weight:900}
-.progress-container{height:7px;background:#ddd}
-.progress{height:100%;background:#ff7900;width:0%;transition:.3s}
-.difficulty{text-align:center;margin:18px 0 5px;font-size:15px;font-weight:800}
-.peppers{text-align:center;font-size:24px;letter-spacing:4px}
-.images-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px;max-width:500px;margin:auto}
-.image-card{background:white;height:145px;border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08)}
-.image-card img{width:100%;height:100%;display:block;object-fit:cover}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f7f7f7;
+  color:#222;
+  min-height:100vh;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+}
+
+.screen{
+  display:none;
+  min-height:100vh;
+}
+
+.screen.active{
+  display:block;
+}
+
+/* ACCUEIL */
+
+#home{
+  background:linear-gradient(160deg,#ff7a00,#ff9d38);
+  color:white;
+  text-align:center;
+  padding:40px 20px;
+}
+
+.logo{
+  font-size:48px;
+  margin-top:40px;
+}
+
+.game-title{
+  font-size:38px;
+  font-weight:900;
+  margin-top:10px;
+}
+
+.subtitle{
+  margin-top:10px;
+  font-size:17px;
+  opacity:.95;
+}
+
+.play-btn{
+  margin-top:50px;
+  background:white;
+  color:#ff7200;
+  font-size:22px;
+  font-weight:900;
+  padding:18px 45px;
+  border-radius:50px;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+.play-btn:active{
+  transform:scale(.96);
+}
+
+.home-info{
+  margin-top:35px;
+  font-size:14px;
+  opacity:.9;
+}
+
+/* JEU */
+
+#game{
+  background:#f7f7f7;
+  padding-bottom:30px;
+}
+
+.topbar{
+  background:white;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.level-title{
+  font-size:18px;
+  font-weight:900;
+}
+
+.coins{
+  background:#fff4d6;
+  color:#d78b00;
+  padding:8px 13px;
+  border-radius:20px;
+  font-weight:900;
+}
+
+.progress-container{
+  height:7px;
+  background:#ddd;
+}
+
+.progress{
+  height:100%;
+  background:#ff7900;
+  width:0%;
+  transition:.3s;
+}
+
+.difficulty{
+  text-align:center;
+  margin:18px 0 5px;
+  font-size:15px;
+  font-weight:800;
+}
+
+.peppers{
+  text-align:center;
+  font-size:24px;
+  letter-spacing:4px;
+}
+
+.images-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:18px;
+  max-width:500px;
+  margin:auto;
+}
+
+.image-card{
+  background:white;
+  height:145px;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+.image-card img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.answer-area{
+  padding:5px 18px 15px;
+  text-align:center;
+}
+
+.answer-title{
+  font-size:14px;
+  color:#777;
+  margin-bottom:10px;
+}
+
+.answer{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  min-height:48px;
+}
+
+.answer-slot{
+  width:38px;
+  height:45px;
+  background:white;
+  border-bottom:3px solid #ff7900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:900;
+  border-radius:5px;
+}
+
+.letters{
+  max-width:500px;
+  margin:10px auto;
+  padding:15px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+
+.letter-btn{
+  width:43px;
+  height:43px;
+  border-radius:10px;
+  background:white;
+  color:#222;
+  font-size:18px;
+  font-weight:900;
+  box-shadow:0 3px 8px rgba(0,0,0,.12);
+}
+
+.letter-btn.used{
+  opacity:.25;
+  pointer-events:none;
+}
+
+.tools{
+  max-width:500px;
+  margin:auto;
+  padding:10px 18px;
+  display:grid;
+  gap:10px;
+}
+
+.tool{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  font-weight:800;
+  font-size:15px;
+  background:white;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.tool span{
+  margin-right:8px;
+}
+
+.tool small{
+  display:block;
+  margin-top:3px;
+  color:#777;
+}
+
+.tool.reveal{
+  color:#e48a00;
+}
+
+.tool.remove{
+  color:#d94b4b;
+}
+
+.tool.erase{
+  color:#268c48;
+}
+
+.message{
+  text-align:center;
+  min-height:25px;
+  padding:8px 18px;
+  font-weight:800;
+}
+
+.message.success{
+  color:#1e9b4b;
+}
+
+.message.error{
+  color:#d83b3b;
+}
+
+/* MODAL */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:420px;
+  background:white;
+  border-radius:25px;
+  padding:30px 20px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.modal-icon{
+  font-size:60px;
+}
+
+.modal h2{
+  margin:10px 0;
+  font-size:28px;
+}
+
+.modal p{
+  color:#666;
+  line-height:1.5;
+}
+
+.modal button{
+  margin-top:20px;
+  background:#ff7900;
+  color:white;
+  padding:14px 25px;
+  border-radius:30px;
+  font-weight:900;
+  font-size:16px;
+}
+
+@media(max-width:380px){
+
+  .image-card{
+    height:125px;
+  }
+
+  .letter-btn{
+    width:39px;
+    height:39px;
+  }
+
+  .answer-slot{
+    width:34px;
+    height:42px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<section id="home" class="screen active">
+
+  <div class="logo">🇨🇮</div>
+
+  <div class="game-title">
+    NOUCHI 4
+  </div>
+
+  <div class="subtitle">
+    4 Images • 1 Mot
+  </div>
+
+  <button class="play-btn" onclick="startGame()">
+    JOUER
+  </button>
+
+  <div class="home-info">
+    Devine les mots Nouchi ivoiriens 🔥
+  </div>
+
+</section>
+
+
+<section id="game" class="screen">
+
+  <div class="topbar">
+
+    <div class="level-title">
+      Niveau <span id="levelNumber">1</span>
+    </div>
+
+    <div class="coins">
+      🪙 <span id="coins">100</span>
+    </div>
+
+  </div>
+
+  <div class="progress-container">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div class="difficulty" id="difficulty">
+    Difficulté : Facile
+  </div>
+
+  <div class="peppers" id="peppers">
+    🫑
+  </div>
+
+  <div class="images-grid" id="imagesGrid"></div>
+
+  <div class="answer-area">
+
+    <div class="answer-title">
+      Trouve le mot
+    </div>
+
+    <div class="answer" id="answer"></div>
+
+  </div>
+
+  <div class="message" id="message"></div>
+
+  <div class="letters" id="letters"></div>
+
+  <div class="tools">
+
+    <button class="tool erase" onclick="eraseLetter()">
+      <span>⌫</span>
+      Effacer la dernière lettre
+      <small>GRATUIT</small>
+    </button>
+
+    <button class="tool reveal" onclick="revealLetter()">
+      <span>💡</span>
+      Révéler une lettre
+      <small>30 🪙</small>
+    </button>
+
+    <button class="tool remove" onclick="removeLetters()">
+      <span>✂️</span>
+      Enlever des lettres
+      <small>50 🪙</small>
+    </button>
+
+  </div>
+
+</section>
+
+
+<div class="overlay" id="overlay">
+
+  <div class="modal">
+
+    <div class="modal-icon" id="modalIcon">
+      🎉
+    </div>
+
+    <h2 id="modalTitle">
+      Bravo !
+    </h2>
+
+    <p id="modalText">
+      Bonne réponse !
+    </p>
+
+    <button onclick="closeModal()">
+      CONTINUER
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   5 NIVEAUX DE TEST
+===================================================== */
+
+const levels = [
+
+  {
+    word:"ANITCHE",
+    meaning:"merci",
+    images:[
+      "images/anitchè-1.jpg",
+      "images/anitchè-2.jpg",
+      "images/anitchè-3.jpg",
+      "images/anitchè-4.jpg"
+    ],
+    difficulty:"easy"
+  },
+
+  {
+    word:"DABALI",
+    meaning:"nourriture",
+    images:[
+      "images/dabali-1.jpg",
+      "images/dabali-2.jpg",
+      "images/dabali-3.jpg",
+      "images/dabali-4.jpg"
+    ],
+    difficulty:"easy"
+  },
+
+  {
+    word:"GBA",
+    meaning:"voiture",
+    images:[
+      "images/gba-1.jpg",
+      "images/gba-2.jpg",
+      "images/gba-3.jpg",
+      "images/gba-4.jpg"
+    ],
+    difficulty:"easy"
+  },
+
+  {
+    word:"DJÔRÔKÔ",
+    meaning:"chaîne",
+    images:[
+      "images/djoroko-1.jpg",
+      "images/djoroko-2.jpg",
+      "images/djoroko-3.jpg",
+      "images/djoroko-4.jpg"
+    ],
+    difficulty:"easy"
+  },
+
+  {
+    word:"TCHALÉ",
+    meaning:"ami",
+    images:[
+      "images/tchale-1.jpg",
+      "images/tchale-2.jpg",
+      "images/tchale-3.jpg",
+      "images/tchale-4.jpg"
+    ],
+    difficulty:"easy"
+  }
+
+];
+
+
+/* VARIABLES */
+
+let currentLevel =
+  Number(localStorage.getItem("nouchiLevel")) || 0;
+
+let coins =
+  Number(localStorage.getItem("nouchiCoins"));
+
+if(!coins){
+  coins = 100;
+}
+
+let selectedLetters = [];
+let selectedButtons = [];
+let answerLocked = false;
+
+
+/* DEMARRER */
+
+function startGame(){
+
+  document.getElementById("home")
+    .classList.remove("active");
+
+  document.getElementById("game")
+    .classList.add("active");
+
+  loadLevel();
+
+}
+
+
+/* CHARGER NIVEAU */
+
+function loadLevel(){
+
+  if(currentLevel >= levels.length){
+
+    showGameFinished();
+    return;
+
+  }
+
+  answerLocked = false;
+
+  selectedLetters = [];
+  selectedButtons = [];
+
+  const level = levels[currentLevel];
+
+  document.getElementById("levelNumber")
+    .textContent = currentLevel + 1;
+
+  document.getElementById("coins")
+    .textContent = coins;
+
+  const progress =
+    ((currentLevel) / levels.length) * 100;
+
+  document.getElementById("progress")
+    .style.width = progress + "%";
+
+
+  const difficulty =
+    document.getElementById("difficulty");
+
+  const peppers =
+    document.getElementById("peppers");
+
+
+  if(level.difficulty === "easy"){
+
+    difficulty.textContent =
+      "Difficulté : Facile";
+
+    peppers.textContent =
+      "🫑";
+
+  }
+
+  else if(level.difficulty === "medium"){
+
+    difficulty.textContent =
+      "Difficulté : Moyenne";
+
+    peppers.textContent =
+      "🫑 🫑";
+
+  }
+
+  else{
+
+    difficulty.textContent =
+      "Difficulté : Difficile";
+
+    peppers.textContent =
+      "🫑 🫑 🫑";
+
+  }
+
+
+  const imagesGrid =
+    document.getElementById("imagesGrid");
+
+  imagesGrid.innerHTML = "";
+
+
+  level.images.forEach(image => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "image-card";
+
+
+    const img =
+      document.createElement("img");
+
+    img.src = image;
+
+    img.alt =
+      "Image du niveau " + (currentLevel + 1);
+
+
+    img.onerror = function(){
+
+      this.style.display = "none";
+
+      card.textContent =
+        "Image à ajouter";
+
+      card.style.display = "flex";
+      card.style.alignItems = "center";
+      card.style.justifyContent = "center";
+      card.style.color = "#aaa";
+      card.style.fontWeight = "bold";
+
+    };
+
+
+    card.appendChild(img);
+
+    imagesGrid.appendChild(card);
+
+  });
+
+
+  renderAnswer();
+
+  createLetters(level.word);
+
+  document.getElementById("message")
+    .textContent = "";
+
+  document.getElementById("message")
+    .className = "message";
+
+}
+
+
+/* CREER LETTRES */
+
+function createLetters(word){
+
+  const lettersContainer =
+    document.getElementById("letters");
+
+  lettersContainer.innerHTML = "";
+
+
+  let letters =
+    word.toUpperCase().split("");
+
+
+  const alphabet =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+
+  while(letters.length < 12){
+
+    const random =
+      alphabet[
+        Math.floor(
+          Math.random() * alphabet.length
+        )
+      ];
+
+    letters.push(random);
+
+  }
+
+
+  letters =
+    letters.sort(() => Math.random() - 0.5);
+
+
+  letters.forEach(letter => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "letter-btn";
+
+    button.textContent =
+      letter;
+
+    button.onclick = function(){
+
+      selectLetter(letter,button);
+
+    };
+
+    lettersContainer.appendChild(button);
+
+  });
+
+}
+
+
+/* SELECTION */
+
+function selectLetter(letter,button){
+
+  if(answerLocked){
+    return;
+  }
+
+  const level =
+    levels[currentLevel];
+
+  if(selectedLetters.length >= level.word.length){
+    return;
+  }
+
+  selectedLetters.push(letter);
+
+  selectedButtons.push(button);
+
+  button.classList.add("used");
+
+  renderAnswer();
+
+  checkAnswer();
+
+}
+
+
+/* AFFICHER REPONSE */
+
+function renderAnswer(){
+
+  const answer =
+    document.getElementById("answer");
+
+  answer.innerHTML = "";
+
+  const level =
+    levels[currentLevel];
+
+  if(!level){
+    return;
+  }
+
+  for(let i = 0; i < level.word.length; i++){
+
+    const slot =
+      document.createElement("div");
+
+    slot.className =
+      "answer-slot";
+
+    slot.textContent =
+      selectedLetters[i] || "";
+
+    answer.appendChild(slot);
+
+  }
+
+}
+
+
+/* EFFACER */
+
+function eraseLetter(){
+
+  if(answerLocked){
+    return;
+  }
+
+  if(selectedLetters.length === 0){
+    return;
+  }
+
+  selectedLetters.pop();
+
+  const button =
+    selectedButtons.pop();
+
+  if(button){
+    button.classList.remove("used");
+  }
+
+  renderAnswer();
+
+}
+
+
+/* VERIFIER */
+
+function checkAnswer(){
+
+  const level =
+    levels[currentLevel];
+
+  if(selectedLetters.length !== level.word.length){
+    return;
+  }
+
+  const answer =
+    selectedLetters.join("");
+
+  if(answer === level.word){
+
+    answerLocked = true;
+
+    showVictory();
+
+  }
+
+  else{
+
+    const message =
+      document.getElementById("message");
+
+    message.textContent =
+      "❌ Mauvaise réponse";
+
+    message.className =
+      "message error";
+
+  }
+
+}
+
+
+/* VICTOIRE */
+
+function showVictory(){
+
+  const level =
+    levels[currentLevel];
+
+  const modal =
+    document.getElementById("overlay");
+
+  document.getElementById("modalIcon")
+    .textContent = "🎉";
+
+  document.getElementById("modalTitle")
+    .textContent = "Bravo !";
+
+  document.getElementById("modalText")
+    .textContent =
+      level.word + " = " + level.meaning;
+
+  const button =
+    modal.querySelector("button");
+
+  if(currentLevel === levels.length - 1){
+
+    button.textContent =
+      "TERMINER LE JEU 🏆";
+
+  }
+
+  else{
+
+    button.textContent =
+      "NIVEAU SUIVANT";
+
+  }
+
+  modal.classList.add("show");
+
+}
+
+
+/* FERMER */
+
+function closeModal(){
+
+  document.getElementById("overlay")
+    .classList.remove("show");
+
+
+  if(currentLevel === levels.length - 1){
+
+    showGameFinished();
+    return;
+
+  }
+
+
+  currentLevel++;
+
+  localStorage.setItem(
+    "nouchiLevel",
+    currentLevel
+  );
+
+  loadLevel();
+
+}
+
+
+/* REVELER */
+
+function revealLetter(){
+
+  if(answerLocked){
+    return;
+  }
+
+  if(coins < 30){
+
+    showMessage(
+      "❌ Pas assez de pièces",
+      "error"
+    );
+
+    return;
+
+  }
+
+  const level =
+    levels[currentLevel];
+
+  let position = -1;
+
+  for(let i = 0; i < level.word.length; i++){
+
+    if(selectedLetters[i] !== level.word[i]){
+
+      position = i;
+      break;
+
+    }
+
+  }
+
+  if(position === -1){
+    return;
+  }
+
+  coins -= 30;
+
+  saveCoins();
+
+
+  while(selectedLetters.length > position){
+
+    const button =
+      selectedButtons.pop();
+
+    if(button){
+      button.classList.remove("used");
+    }
+
+    selectedLetters.pop();
+
+  }
+
+
+  const targetLetter =
+    level.word[position];
+
+  const buttons =
+    document.querySelectorAll(".letter-btn");
+
+  let foundButton = null;
+
+  buttons.forEach(button => {
+
+    if(
+      !foundButton &&
+      button.textContent === targetLetter &&
+      !button.classList.contains("used")
+    ){
+
+      foundButton = button;
+
+    }
+
+  });
+
+
+  if(foundButton){
+
+    selectedLetters.push(targetLetter);
+
+    selectedButtons.push(foundButton);
+
+    foundButton.classList.add("used");
+
+  }
+
+
+  renderAnswer();
+
+  document.getElementById("coins")
+    .textContent = coins;
+
+}
+
+
+/* ENLEVER LETTRES */
+
+function removeLetters(){
+
+  if(answerLocked){
+    return;
+  }
+
+  if(coins < 50){
+
+    showMessage(
+      "❌ Pas assez de pièces",
+      "error"
+    );
+
+    return;
+
+  }
+
+  const level =
+    levels[currentLevel];
+
+  coins -= 50;
+
+  saveCoins();
+
+
+  const buttons =
+    Array.from(
+      document.querySelectorAll(".letter-btn")
+    );
+
+
+  const wrongButtons =
+    buttons.filter(button => {
+
+      const letter =
+        button.textContent;
+
+      return(
+        !level.word.includes(letter) &&
+        !button.classList.contains("used")
+      );
+
+    });
+
+
+  wrongButtons
+    .sort(() => Math.random() - .5)
+    .slice(0,3)
+    .forEach(button => {
+
+      button.style.visibility =
+        "hidden";
+
+    });
+
+
+  document.getElementById("coins")
+    .textContent = coins;
+
+}
+
+
+/* MESSAGE */
+
+function showMessage(text,type){
+
+  const message =
+    document.getElementById("message");
+
+  message.textContent =
+    text;
+
+  message.className =
+    "message " + type;
+
+}
+
+
+/* PIECES */
+
+function saveCoins(){
+
+  localStorage.setItem(
+    "nouchiCoins",
+    coins
+  );
+
+}
+
+
+/* FIN DU JEU */
+
+function showGameFinished(){
+
+  document.getElementById("game")
+    .classList.remove("active");
+
+  document.getElementById("home")
+    .classList.add("active");
+
+  document.querySelector(".game-title")
+    .textContent =
+      "NOUCHI 4";
+
+  document.querySelector(".subtitle")
+    .textContent =
+      "🏆 Tu as terminé les 5 niveaux !";
+
+  const button =
+    document.querySelector(".play-btn");
+
+  button.textContent =
+    "REJOUER 🔥";
+
+  button.onclick =
+    function(){
+
+      currentLevel = 0;
+
+      localStorage.setItem(
+        "nouchiLevel",
+        0
+      );
+
+      startGame();
+
+    };
+
+}
+
+
+/* INITIALISATION */
+
+document.getElementById("coins")
+  .textContent = coins;
+
+</script>
+
+</body>
+</html>

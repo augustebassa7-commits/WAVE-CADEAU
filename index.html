@@ -3,145 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4 Images 1 Mot - Nouchi</title>
+<title>Nouchi 4 — 4 Images 1 Mot</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f172a;color:white;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:10px}
-header{width:100%;max-width:400px;display:flex;justify-content:space-between;padding:15px;background:#1e293b;border-radius:12px;margin-bottom:15px}
-.game{width:100%;max-width:400px;background:#1e293b;border-radius:16px;padding:15px}
-.level-text{text-align:center;margin-bottom:10px;color:#f59e0b;font-weight:bold}
-.image-box{width:100%;aspect-ratio:1/1;background:#000;border-radius:12px;overflow:hidden;margin-bottom:15px;border:2px solid #334155}
-.image-box img{width:100%;height:100%;object-fit:cover}
-.word-box{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:15px;min-height:40px}
-.letter-slot{width:38px;height:45px;background:#0f172a;border:2px solid #334155;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold}
-.letter-slot.filled{border-color:#f59e0b;background:#1e293b}
-.keyboard{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:15px}
-.key{height:45px;background:#334155;border:none;border-radius:8px;color:white;font-weight:bold;font-size:16px}
-.key.used{opacity:0.2;pointer-events:none}
-.actions{display:flex;gap:10px}
-.btn{flex:1;padding:12px;border:none;border-radius:10px;font-weight:bold}
-.btn-del{background:#ef4444;color:white}
-.btn-next{background:#f59e0b;color:black;display:none}
-.hint{margin-top:10px;text-align:center;color:#94a3b8;font-size:14px}
-</style>
-</head>
-<body>
-<header>
-  <div>💰 <span id="coins">100</span></div>
-  <div>Niveau <span id="levelNum">1</span>/4</div>
-</header>
-
-<div class="game">
-  <div class="level-text" id="levelHint">ANITCHE = merci</div>
-  <div class="image-box"><img id="mainImage" src="anitche.jpg"></div>
-  <div class="word-box" id="wordBox"></div>
-  <div class="keyboard" id="keyboard"></div>
-  <div class="actions">
-    <button class="btn btn-del" onclick="clearWord()">EFFACER</button>
-    <button class="btn btn-next" id="nextBtn" onclick="nextLevel()">SUIVANT ➔</button>
-  </div>
-  <div class="hint" id="hintText"></div>
-</div>
-
-<script>
-const levels = [
-  { file:"anitche.jpg", word:"ANITCHE", hint:"Merci" },
-  { file:"tchale.jpg", word:"TCHALE", hint:"Ami" },
-  { file:"gba.jpg", word:"GBA", hint:"Voiture / Woro" },
-  { file:"djoroko.jpg", word:"DJOROKO", hint:"Chaîne" }
-];
-
-let current = 0;
-let answer = [];
-let letters = [];
-
-function init(){
-  const lvl = levels[current];
-  document.getElementById('mainImage').src = lvl.file;
-  document.getElementById('levelNum').textContent = current+1;
-  document.getElementById('levelHint').textContent = `Indice: ${lvl.hint}`;
-  document.getElementById('hintText').textContent = `${lvl.word.length} lettres`;
-  document.getElementById('nextBtn').style.display="none";
-  answer = [];
-
-  // cases vides
-  const box = document.getElementById('wordBox');
-  box.innerHTML="";
-  for(let i=0;i<lvl.word.length;i++){
-    const d=document.createElement('div');
-    d.className='letter-slot';
-    d.id='slot-'+i;
-    box.appendChild(d);
-  }
-
-  // clavier
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let mix = lvl.word.split("");
-  while(mix.length < 14){
-    mix.push(alphabet[Math.floor(Math.random()*26)]);
-  }
-  mix = mix.sort(()=>Math.random()-0.5);
-  letters = mix;
-
-  const kb = document.getElementById('keyboard');
-  kb.innerHTML="";
-  mix.forEach((l,i)=>{
-    const b=document.createElement('button');
-    b.className='key';
-    b.textContent=l;
-    b.id='key-'+i;
-    b.onclick=()=>pick(i);
-    kb.appendChild(b);
-  });
-}
-
-function pick(i){
-  if(answer.length >= levels[current].word.length) return;
-  const slot = answer.length;
-  document.getElementById('slot-'+slot).textContent = letters[i];
-  document.getElementById('slot-'+slot).classList.add('filled');
-  document.getElementById('key-'+i).classList.add('used');
-  answer.push({letter:letters[i], key:i});
-  check();
-}
-
-function clearWord(){
-  answer.forEach(a=>{
-    document.getElementById('key-'+a.key).classList.remove('used');
-  });
-  answer=[];
-  document.querySelectorAll('.letter-slot').forEach(s=>{
-    s.textContent=""; s.classList.remove('filled');
-  });
-}
-
-function check(){
-  if(answer.length!== levels[current].word.length) return;
-  const mot = answer.map(a=>a.letter).join("");
-  if(mot === levels[current].word){
-    document.getElementById('nextBtn').style.display="block";
-    document.getElementById('hintText').textContent="✅ Bravo! C'est "+levels[current].word;
-    document.getElementById('hintText').style.color="#22c55e";
-    let c = parseInt(document.getElementById('coins').textContent);
-    document.getElementById('coins').textContent = c+20;
-  } else {
-    document.getElementById('hintText').textContent="❌ Ce n'est pas ça, essaie encore";
-    document.getElementById('hintText').style.color="#ef4444";
-    setTimeout(clearWord,800);
-  }
-}
-
-function nextLevel(){
-  if(current < levels.length-1){
-    current++;
-    init();
-    document.getElementById('hintText').style.color="#94a3b8";
-  } else {
-    alert("🎉 Tu as fini les 4 niveaux! Envoie-moi les autres images pour que je te fasse la suite.");
-  }
-}
-
-init();
-</script>
-</body>
-</html>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f7f7f7;color:#222;min-height:100vh}
+button{border:none;cursor:pointer}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+#home{background:linear-gradient(160deg,#ff7a00,#ff9d38);color:white;text-align:center;padding:40px 20px}
+.logo{font-size:48px;margin-top:40px}
+.game-title{font-size:38px;font-weight:900;margin-top:10px}
+.subtitle{margin-top:10px;font-size:17px;opacity:.95}
+.play-btn{margin-top:50px;background:white;color:#ff7200;font-size:22px;font-weight:900;padding:18px 45px;border-radius:50px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.play-btn:active{transform:scale(.96)}
+.home-info{margin-top:35px;font-size:14px;opacity:.9}
+#game{background:#f7f7f7;padding-bottom:30px}
+.topbar{background:white;padding:15px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
+.level-title{font-size:18px;font-weight:900}
+.coins{background:#fff4d6;color:#d78b00;padding:8px 13px;border-radius:20px;font-weight:900}
+.progress-container{height:7px;background:#ddd}
+.progress{height:100%;background:#ff7900;width:0%;transition:.3s}
+.difficulty{text-align:center;margin:18px 0 5px;font-size:15px;font-weight:800}
+.peppers{text-align:center;font-size:24px;letter-spacing:4px}
+.images-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px;max-width:500px;margin:auto}
+.image-card{background:white;height:145px;border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.image-card img{width:100%;height:100%;display:block;object-fit:cover}
